@@ -11,7 +11,6 @@ let _loadingError = null;
 
 const TasksStore = Object.assign({}, EventEmitter.prototype, {
   getPortfolio() {
-    console.log("load");
     return _portfolio;
   },
 
@@ -37,13 +36,11 @@ AppDispatcher.register(function(action) {
           asset[descType] = description;
         }
       });
-      console.log("change-description");
       TasksStore.emitChange();
       break;
     }
     case UpdateConstants.CHANGE_ASSET_LIST: {
       _portfolio.assets = action.assets;
-      console.log("change-assets:", _portfolio.assets);
       TasksStore.emitChange();
       break;
     }

@@ -2,9 +2,12 @@ import React from 'react';
 import Modal from 'react-modal';
 import Formsy from 'formsy-react';
   
-import FormsyInput from '../FormElements/FormsyInput.jsx';
+import FormsyInput from '../FormElements/CreatePortfInput.jsx';
 
 import './CreatePortfolioForm.less';
+
+const inputStyle = "form-group";
+
 
 class CreateForm extends React.Component {
   constructor(props) {
@@ -34,24 +37,54 @@ class CreateForm extends React.Component {
 
   render() {
     return (
-      <Formsy.Form onValidSubmit={this.submit} onValid={this.enableButton} onInvalid={this.disableButton}>
-        <div className="form-group row">
-          <label className="col-sm-4">Short Description:</label>
-          <div className="col-sm-8">
-            <FormsyInput name="shortDes" required/>
-          </div>
-        </div>
-        <div className="form-group row">
-          <label className="col-sm-4">Long Description:</label>
-          <div className="col-sm-8">
-            <FormsyInput name="longDes" required/>
-          </div>
-        </div>
-        <div className="form-group">
-          <button type="submit" disabled={!this.state.canSubmit} className="btn btn-primary btn-outline">
+      <Formsy.Form 
+        onValidSubmit={this.submit}
+        onValid={this.enableButton}
+        onInvalid={this.disableButton}
+        className="form-signin"
+      >
+        <h2 class="form-signin-heading">Create Portfolio</h2>
+        <br/>
+        <FormsyInput 
+          label="Short Description"
+          name="shortDes" 
+          validations={{
+            minLength: 2,
+            maxLength: 6,
+          }}
+          validationErrors={{
+            minLength: 'Pleasure type more than 2 characters',
+            maxLength: 'You can not type in more than 6 characters'
+          }} 
+          required
+        />
+        <FormsyInput 
+          label="Long Description"
+          name="longDes" 
+          validations={{
+            minLength: 3,
+            maxLength: 20
+          }}
+          validationErrors={{
+            minLength: 'Pleasure type more than 3 characters',
+            maxLength: 'You can not type in more than 20 characters'
+          }} 
+          required
+        />
+        <br/><br/>
+        <div className="btn-group col-lg-12">
+          <button 
+            type="submit"
+            disabled={!this.state.canSubmit}
+            className="btn btn-lg btn-primary col-lg-6"
+          >
             Confirm
           </button>
-          <button type="button" className="btn btn-primary btn-outline" onClick={ this.props.closeModal }>
+          <button
+            type="button"
+            className="btn btn-lg btn-primary col-lg-6"
+            onClick={ this.props.closeModal }
+          >
             Close
           </button>
         </div>

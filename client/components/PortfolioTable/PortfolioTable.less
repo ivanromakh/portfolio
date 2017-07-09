@@ -1,31 +1,45 @@
-.table-border {
-  border-style: solid;
-  padding: 2% 6% 2% 2%;
+.table {
+  border: 1px solid #000000;
+}
+.table > thead > tr > th,
+.table > tbody > tr > th,
+.table > tfoot > tr > th,
+.table > thead > tr > td,
+.table > tbody > tr > td,
+.table > tfoot > tr > td {
+   border: 1px solid #000000;
 }
 
-.table-fixed{
-  width: 100%;
-  background-color: #f3f3f3;
-  tbody{
-    height:200px;
-    overflow-y:auto;
-    width: 100%;
-    }
-  thead,tbody,tr,td,th{
-    display:block;
-  }
-  tbody{
-    td{
-      float:left;
-    }
-  }
-  thead {
-    tr{
-      th{
-        float:left;
-       background-color: #f39c12;
-       border-color:#e67e22;
-      }
-    }
-  }
+table.scroll {
+    /* width: 100%; */ /* Optional */
+    /* border-collapse: collapse; */
+    border-spacing: 0;
+    border: 2px solid black;
+}
+
+table.scroll tbody,
+table.scroll thead { display: block; }
+
+thead tr th { 
+    height: 30px;
+    line-height: 30px;
+    /* text-align: left; */
+}
+
+table.scroll tbody {
+    height: 400px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+tbody { border-top: 2px solid black; }
+
+tbody td, thead th {
+    /* width: 20%; */ /* Optional */
+    border-right: 1px solid black;
+    /* white-space: nowrap; */
+}
+
+tbody td:last-child, thead th:last-child {
+    border-right: none;
 }

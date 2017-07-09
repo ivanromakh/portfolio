@@ -13,6 +13,7 @@ const FormsyInput = React.createClass({
     const assetId = data[1];
 
     let descType = null;
+
     if(data[0] == 'assetShDesc') {
       descType = "shortDescription";
     } else if (data[0] == 'assetLnDesc') {
@@ -34,7 +35,6 @@ const FormsyInput = React.createClass({
         className="form-control"
         value={this.getValue()}
         onChange={this.changeValue}
-        placeholder="must not be empty"
       />
     );
   }

@@ -43,14 +43,13 @@ class ModalWindowCreate extends React.Component {
   render() {
     return (
       <div>
-        <button className="btn btn-primary" onClick={ this.openModal }>Create new Portfolio</button>
+        <button className="btn btn-primary" onClick={ this.openModal }>Create new portfolio</button>
         <Modal
           isOpen={ this.state.modalIsOpen }
           onRequestClose={ this.closeModal }
           style={ customModelStyles }
           contentLabel="Example Modal"
         >
-          <h2>Create Portfolio</h2>
           <CreatePortfolioForm 
             handlePortfolioCreate={this.props.handlePortfolioCreate} 
             closeModal={this.closeModal} 

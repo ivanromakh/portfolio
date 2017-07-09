@@ -2,8 +2,7 @@ import React from 'react';
 import Modal from 'react-modal';
 import Formsy from 'formsy-react';
 
-import FormsyInput from '../FormElements/FormsyInput.jsx';
-import InputPercentage from '../FormElements/InputPercentage.jsx';
+import FormsyInput from '../FormElements/AssetInput.jsx';
 import CreateAssetForm from './CreateAssetForm.jsx';
 import AssetList from './AssetList.jsx';
 
@@ -74,37 +73,38 @@ class UpdateForm extends React.Component {
             onValid={this.enableButton}
             onInvalid={this.disableButton}
           >
-            <h2>Portfolio Update</h2>
-            <div className="row">
-              <div className="col-xs-1">
-                <label>Id</label>
+            <div className="panel panel-primary">
+              <div className="panel-heading">
+                <h3 className="panel-title">Portfolio</h3>
               </div>
-              <div className="col-xs-3">
-                <label>Short Description</label>
-              </div>
-              <div className="col-xs-4">
-                <label>Long Description</label>
-              </div>
-
-            </div>
-            <div className="row">
-              <div className="col-xs-1">
-                <label className="form-control">{portfolio.id}</label>
-              </div>
-              <div className="col-xs-3">
-                <FormsyInput 
-                  name="shortDescription"
-                  value={portfolio.shortDescription}
-                  required
-                />
-              </div>
-              <div className="col-xs-4">
-                <FormsyInput
-                  name="longDescription"
-                  value={portfolio.longDescription}
-                  required
-                />
-              </div>
+              <table className="table table-bordered">
+                <thead>
+                  <tr>
+                    <th>Id</th>
+                    <th>Short Description</th>
+                    <th>Long Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>{portfolio.id}</td>
+                    <td>
+                      <FormsyInput 
+                        name="shortDescription"
+                        value={portfolio.shortDescription}
+                        required
+                      />
+                    </td>
+                    <td>
+                      <FormsyInput
+                        name="longDescription"
+                        value={portfolio.longDescription}
+                        required
+                      />
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
             <AssetList assets={portfolio.assets} />
             <div className="btn-group">

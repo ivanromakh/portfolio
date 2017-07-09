@@ -2,12 +2,14 @@ import React from 'react';
 import Formsy from 'formsy-react';
 
 import AssetInput from '../FormElements/AssetInput.jsx';
-import InputPercentage from '../FormElements/InputPercentage.jsx';
+import NumberInput from '../FormElements/UpdatePercInput.jsx';
 
 import AssetStore from '../../stores/AssetStore';
 import AssetActions from '../../actions/AssetActions';
 
 import { showInfo } from '../../utils/alerts';
+
+import './AssetList.less';
 
 class CreateAssetForm extends React.Component {
   constructor(props) {
@@ -37,8 +39,7 @@ class CreateAssetForm extends React.Component {
       return true;
     }
     
-    const assetId = event.currentTarget.name.split('-')[1];
-    AssetActions.changePercentages(assetId, event.currentTarget.value, this.props.assets);
+    const assetId = event.currentTarget.id.split('-')[1];
   }
 
   handleDeleteAsset(event) {
@@ -47,38 +48,44 @@ class CreateAssetForm extends React.Component {
   }
 
   renderAssets(assets) {
+    Formsy.addValidationRule('isPositive', function (values, value) {
+      return value >= 0;
+    });
+
     return (assets.map((asset) => (
       <tr key={asset.id}>
-        <td className="col-xs-1">{asset.id}</td>
-        <td className="col-xs-2">
+        <td>{asset.id}</td>
+        <td>
           <AssetInput  
             value={asset.shortDescription}
             name={`assetShDesc-${asset.id}`}
             required
           />
         </td>
-        <td className="col-xs-3">
+        <td>
           <AssetInput
             name={`assetLnDesc-${asset.id}`}
             value={asset.longDescription}
             required
           />
         </td>
-        <td className="col-xs-2">
-          <input
+        <td>
+          <NumberInput
             type="number"
             className="form-control"
             onChange={this.handlePercentChange}
-            name={`assetPerc-${asset.id}`}
+            name={`percent-${asset.id}`}
             value={asset.percentage}
+            required
           />
         </td>
-        <td className="col-xs-1">
-          <button 
+        <td>
+          <button
             type="button"
             className="btn btn-primary"
             name={`dellAsset-${asset.id}`}
             onClick={this.handleDeleteAsset}
+            required
           >
             Delete
           </button>
@@ -89,16 +96,18 @@ class CreateAssetForm extends React.Component {
 
   render() {
     return (
-      <div class="asset-list">
-        <h3>Asset List</h3>
+      <div className="panel panel-primary">
+        <div className="panel-heading">
+          <h3 className="panel-title">Assets</h3>
+        </div>
         <table className="table table-bordered">
           <thead>
             <tr>
-              <th className="col-xs-1">Id</th>
-              <th className="col-xs-3">Short Description</th>
-              <th className="col-xs-2">Long Description</th>
-              <th className="col-xs-2">Percentage</th>
-              <th className="col-xs-1">Actions</th>
+              <th>Id</th>
+              <th>Short Description</th>
+              <th>Long Description</th>
+              <th>Percentage</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>

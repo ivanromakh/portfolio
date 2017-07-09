@@ -46,7 +46,6 @@ const AssetActions = {
       }
     });
 
-
     increasePercentages(assets, lostPercent);
 
     AppDispatcher.dispatch({
@@ -78,13 +77,9 @@ const AssetActions = {
   	  return true;
   	}
 
-    const asset = assets.splice(assetId, 1)[0];
+    assets[assetId].percentage = value;
 
-    validateChangePercent(assets, value, asset);
 
-    asset.percentage = value;
-
-    assets.splice(assetId, 0, asset);
 
     AppDispatcher.dispatch({
       type: Constants.CHANGE_ASSET_LIST,

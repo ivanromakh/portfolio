@@ -1,8 +1,8 @@
 import React from 'react';
 import Formsy from 'formsy-react';
 
-import FormsyInput from '../FormElements/FormsyInput.jsx';
-import InputPercentage from '../FormElements/InputPercentage.jsx';
+import FormsyInput from '../FormElements/InlineInput.jsx';
+import InputPercentage from '../FormElements/CreateInputPerc.jsx';
 
 import AssetStore from '../../stores/AssetStore';
 import AssetActions from '../../actions/AssetActions';
@@ -33,7 +33,8 @@ class CreateAssetForm extends React.Component {
     });
   }
 
-  disableButton() {
+  disableButton(event) {
+  	console.log(event);
     this.setState({
       canSubmit: false
     });
@@ -45,7 +46,6 @@ class CreateAssetForm extends React.Component {
   }
 
   render() {
-  	console.log(this.props.portfolio);
   	const length = this.props.portfolio.assets.length;
     return (
       <div className="CreateAssetForm">
@@ -56,16 +56,33 @@ class CreateAssetForm extends React.Component {
           onValid={this.enableButton}
           onInvalid={this.disableButton}
         >
+          <FormsyInput
+            name="shortDescription"
+            label="Short Description"
+            validations={{
+              minLength: 2,
+              maxLength: 6,
+            }}
+            validationErrors={{
+              minLength: 'Pleasure type more than 2 characters',
+              maxLength: 'You can not type in more than 6 characters'
+            }}
+            required
+          />
+          <FormsyInput
+            name="longDescription"
+            label="Long Description"
+            validations={{
+              minLength: 3,
+              maxLength: 20
+            }}
+            validationErrors={{
+              minLength: 'Pleasure type more than 3 characters',
+              maxLength: 'You can not type in more than 20 characters'
+            }} 
+            required
+          />
           <div className="form-group">
-            <label>Short Description</label>
-            <FormsyInput name="shortDescription" placeholder="must not be empty" required/>
-          </div>
-          <div className="form-group">
-            <label>Long Description</label>
-            <FormsyInput name="longDescription" placeholder="must not be empty" required/>
-          </div>
-          <div className="form-group">
-            <label>Percentage</label>
             <InputPercentage name="percentage" max={100-length} required/>
           </div>
           <button

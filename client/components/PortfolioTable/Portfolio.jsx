@@ -12,7 +12,9 @@ class Portfolio extends React.Component {
         </button>
         <button className="btn btn-primary btn-outline" onClick={
           () => {
-            if(confirm('Delete the item?')) {this.props.handlePortfolioDelete()};
+            if(confirm('Are you sure you want to delete this portfolio?')) {
+              this.props.handlePortfolioDelete()
+            };
           }}
         >
           Delete
@@ -27,10 +29,10 @@ class Portfolio extends React.Component {
   render() {
     return (
       <tr>
-        <td>{this.props.portfolio.id}</td>
-        <td>{this.props.portfolio.shortDescription}</td>
-        <td>{this.props.portfolio.longDescription}</td>
-        <td>
+        <td className="col-xs-2">{this.props.portfolio.id}</td>
+        <td className="col-xs-3">{this.props.portfolio.shortDescription}</td>
+        <td className="col-xs-4">{this.props.portfolio.longDescription}</td>
+        <td className="col-xs-8">
           {this.renderActions()}
         </td>
       </tr>
