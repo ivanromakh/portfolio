@@ -7,6 +7,8 @@ import 'react-s-alert/dist/s-alert-css-effects/genie.css';
 import PortfolioStore from '../stores/PortfolioStore';
 import PortfolioActions from '../actions/PortfolioActions';
 
+import NavBar from './NavBar.jsx'
+import Dashboard from './Dashboard/Dashboard.jsx'
 import ModalWindowDetail from './modalDetailPortfolio/ModalWindowDetail.jsx';
 import ModalWindowUpdate from './modalUpdatePortfolio/ModalWindowUpdate.jsx';
 import ModalWindowCreate from './modalCreatePortfolio/ModalWindowCreate.jsx';
@@ -14,11 +16,13 @@ import PortfolioTable from './PortfolioTable/PortfolioTable.jsx';
 
 import './App.less';
 
+
 function getStateFromFlux() {
   return {
     isLoading: PortfolioStore.isLoading(),
     portfolios: PortfolioStore.getPortfolios(),
     selectedPortfolio: {},
+    view: 'portfolio',
     showUpdateModal: false,
     showDetailModal: false,
   };
@@ -57,6 +61,11 @@ class App extends React.Component {
     this.setState({ showDetailModal: true, selectedPortfolio: portfolio });
   }
 
+  changeView(event) {
+    console.log(event.currentTarget.name);
+    this.setState({view: event.currentTarget.name});
+  }
+
   closeModalDetail() {
     this.setState({ showDetailModal: false });
   }
@@ -69,33 +78,47 @@ class App extends React.Component {
     PortfolioActions.deletePortfolio(portfolio.id);
   }
 
+  renderView() {
+    if(this.state.view == 'portfolio') {
+      return (
+        <div>
+          <ModalWindowCreate handlePortfolioCreate={this.handlePortfolioCreate} />
+          <ModalWindowUpdate
+            handlePortfolioUpdate={this.handlePortfolioUpdate}
+            closeModal = {this.closeModalUpdate.bind(this)}
+            portfolio={this.state.selectedPortfolio}
+            modalIsOpen={this.state.showUpdateModal}
+          />
+          <ModalWindowDetail
+            closeModal = {this.closeModalDetail.bind(this)}
+            portfolio={this.state.selectedPortfolio}
+            modalIsOpen={this.state.showDetailModal}
+          />
+          <h2 className='Table__header'>List of portfolios</h2>
+          <div className="portfolios-container">
+            { !this.state.isLoading 
+              ? <PortfolioTable 
+                portfolios={ this.state.portfolios }
+                openModalUpdate={ this.openModalUpdate.bind(this) }
+                openModalDetail={ this.openModalDetail.bind(this) }
+                handlePortfolioDelete={ this.handlePortfolioDelete }
+              /> : null
+            }
+          </div>
+        </div>
+      );
+    } else if (this.state.view == 'dashboard') {
+      return <Dashboard portfolios={this.state.portfolios} />;
+    }
+  }
+
   render() {
     return (
       <div className='App'>
+        <NavBar changeView={this.changeView.bind(this)}/>
         <Alert stack={{ limit: 3 }} />
-        <ModalWindowCreate handlePortfolioCreate={this.handlePortfolioCreate} />
-        <ModalWindowUpdate
-          handlePortfolioUpdate={this.handlePortfolioUpdate}
-          closeModal = {this.closeModalUpdate.bind(this)}
-          portfolio={this.state.selectedPortfolio}
-          modalIsOpen={this.state.showUpdateModal}
-        />
-        <ModalWindowDetail
-          closeModal = {this.closeModalDetail.bind(this)}
-          portfolio={this.state.selectedPortfolio}
-          modalIsOpen={this.state.showDetailModal}
-        />
-        <h2 className='Table__header'>List of portfolios</h2>
-        <div className="portfolios-container">
-          { !this.state.isLoading 
-            ? <PortfolioTable 
-              portfolios={ this.state.portfolios }
-              openModalUpdate={ this.openModalUpdate.bind(this) }
-              openModalDetail={ this.openModalDetail.bind(this) }
-              handlePortfolioDelete={ this.handlePortfolioDelete }
-            /> : null
-          }
-        </div>
+        {this.renderView()}
+        
       </div>
     );
   }

@@ -9,27 +9,17 @@
   display: none;
 }
 
-.table {
-    display: table;
-    background: white;
-    border-color: #3a87ad;
-}
+/*
+Asset table is from here https://www.codeply.com/go/OAEz9LcQ0T
+*/
 
-.tablescroll {
-    overflow-y: auto;
-	overflow-x: hidden;
-	height: 189px;
-	margin-right: 1px;
+#assets-tbody {
+    display:block;
+    height:200px;
+    overflow:auto;
 }
-
-td, th {
-  padding: 6px;
-  border: 1px solid #ccc;
-  text-align: left;
-  height: 50px;
-}
-th {
-  color: #454545;
-  font-weight: bold;
-  height: 40px;
+#assets-thead, #assets-tbody tr {
+    display:table;
+    width:100%;
+    table-layout:fixed;
 }

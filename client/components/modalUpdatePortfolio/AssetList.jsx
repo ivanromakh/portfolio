@@ -62,8 +62,8 @@ class AssetList extends React.Component {
 
     return (assets.map((asset) => (
       <tr key={asset.id}>
-        <td style={style2}>{asset.id}</td>
-        <td style={style}>
+        <td>{asset.id}</td>
+        <td>
           <AssetInput  
             value={asset.shortDescription}
             name={`assetShDesc-${asset.id}`}
@@ -78,7 +78,7 @@ class AssetList extends React.Component {
             required
           />
         </td>
-        <td style={style}>
+        <td>
           <AssetInput
             name={`assetLnDesc-${asset.id}`}
             value={asset.longDescription}
@@ -93,7 +93,7 @@ class AssetList extends React.Component {
             required
           />
         </td>
-        <td style={style}>
+        <td>
           <NumberInput
             type="number"
             className="form-control"
@@ -113,7 +113,7 @@ class AssetList extends React.Component {
             required
           />
         </td>
-        <td style={style}>
+        <td>
           <button
             type="button"
             className="btn btn-primary"
@@ -136,25 +136,22 @@ class AssetList extends React.Component {
           <div className="panel-heading">
             <h3 className="panel-title">Assets</h3>
           </div>
-          <table className="span12">
-            <table>
-              <tr className="filters">
-              <th style={style2}> Id </th>
-              <th style={style}> Short Description  </th>
-              <th style={style}> Long Description
-              </th>
-              <th style={style}> Percentage
-              </th>
-              <th style={style}> Actions
-              </th>
+          <div>
+          <table className="table asset-list table-bordered">
+            <thead id="assets-thead">
+              <tr>
+              <th> Id </th>
+              <th> Short Description  </th>
+              <th> Long Description </th>
+              <th> Percentage </th>
+              <th> Actions </th>
               </tr>
-            </table>
-            <div className="bg tablescroll">
-              <table className="table table-bordered table-striped">
-                {this.renderAssets(this.props.assets)}
-              </table>
-            </div>
+            </thead>
+            <tbody id="assets-tbody">
+              {this.renderAssets(this.props.assets)}
+            </tbody>
           </table>
+        </div>
         </div>
     );
   }

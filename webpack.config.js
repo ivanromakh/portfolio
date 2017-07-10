@@ -50,5 +50,8 @@ module.exports = {
                 loader: "json-loader"
             }
         ]
-    }
+    },
+    plugins: [
+      new webpack.NoErrorsPlugin()
+    ]
 }
