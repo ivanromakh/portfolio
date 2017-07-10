@@ -4,7 +4,7 @@ import Formsy from 'formsy-react';
 import { showInfo, showError } from '../../utils/alerts';
 import AssetActions from '../../actions/AssetActions';
 
-const FormsyInput = React.createClass({
+const PercentageInput = React.createClass({
   mixins: [Formsy.Mixin],
   changeValue(event) {
     const value = event.currentTarget.value;
@@ -14,8 +14,18 @@ const FormsyInput = React.createClass({
     if (value > this.props.max) {
       showInfo(`Percentage must be lower then ${this.props.max}`);
     }
+
+    if (this.props.assets.length == 1) {
+      showInfo("You can`t change percentage becouse there is only one asset");
+      return true;
+    }
+
     this.setValue(event.currentTarget.value);
-    //AssetActions.changePercentages(assetId, event.currentTarget.value, this.props.assets);
+    
+    const data = event.currentTarget.name.split('-');
+    const assetId = data[1];
+
+    AssetActions.changePercentages(assetId, event.currentTarget.value, this.props.assets);
   },
 
   componentWillMount() {
@@ -29,14 +39,9 @@ const FormsyInput = React.createClass({
       ? 'has-error'
       : 'has-success';
 
-    if(this.showError()) {
-      showError(this.getErrorMessage());
-    }
-
     const glyphClass = this.showRequired() ? "glyphicon glyphicon-asterisk form-control-feedback" : "invisible";
 
     const errorMessage = this.getErrorMessage();
-    console.log(this.getValue());
 
     return (
         <div className={inputClass}>
@@ -51,9 +56,10 @@ const FormsyInput = React.createClass({
           max={this.props.max}
         />
         <i className={glyphClass}></i>
+        <span>{errorMessage}</span>
     </div>
     );
   }
 });
 
-export default FormsyInput;
+export default PercentageInput;

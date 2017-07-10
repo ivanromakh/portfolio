@@ -3,6 +3,8 @@ import Constants from '../constants/UpdateFormConstants';
 
 import { showSuccess, showError } from '../utils/alerts';
 
+import api from '../api';
+
 import { increasePercentages, decreasePercentages,
   validateChangePercent } from '../validations/validations.js';
 
@@ -61,6 +63,17 @@ const AssetActions = {
     });
   },
 
+  updatePortfolio(portfolio) {
+    api.updatePortfolio(portfolio)
+    .then(() => {
+      return true;
+    })
+    .catch(err => {
+      showError(err)
+      return false;
+    });
+  },
+
   changeAssetDescription(description, descType, assetId) {
   	AppDispatcher.dispatch({
       type: Constants.CHANGE_ASSET_DESCRIPTION,
@@ -68,18 +81,23 @@ const AssetActions = {
     });
   },
 
-  changePercentages(assetId, value, assets) {
-  	if (assets.length == 1) {
-  	  return true;
-  	}
+  changePorfolioDescription(description, descType, assetId) {
+    AppDispatcher.dispatch({
+      type: Constants.CHANGE_PORFOLIO_DESCRIPTION,
+      description: {description, descType, assetId}
+    });
+  },
 
-  	if (assets[assetId].percentage == value) {
-  	  return true;
-  	}
+  changePercentages(assetId, value, assets) {
+    if (assets.length == 1) {
+      return true;
+    }
+
+    if (assets[assetId].percentage == value) {
+      return true;
+    }
 
     assets[assetId].percentage = value;
-
-
 
     AppDispatcher.dispatch({
       type: Constants.CHANGE_ASSET_LIST,

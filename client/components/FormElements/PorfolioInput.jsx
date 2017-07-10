@@ -9,18 +9,9 @@ const FormsyInput = React.createClass({
     this.setValue(event.currentTarget.value);
 
     const description = event.currentTarget.value;
-    const data = event.currentTarget.name.split('-');
-    const assetId = data[1];
+    const data = event.currentTarget.name;
 
-    let descType = null;
-
-    if(data[0] == 'assetShDesc') {
-      descType = "shortDescription";
-    } else if (data[0] == 'assetLnDesc') {
-      descType = "longDescription";
-    }
-
-    AssetActions.changeAssetDescription(description, descType, assetId);
+    AssetActions.changePorfolioDescription(description, data);
   },
   
   componentWillMount() {
@@ -37,7 +28,6 @@ const FormsyInput = React.createClass({
     const glyphClass = this.showRequired() ? "glyphicon glyphicon-asterisk form-control-feedback" : "invisible";
 
     const errorMessage = this.getErrorMessage();
-
     return (
       <div className={inputClass}>
         <input

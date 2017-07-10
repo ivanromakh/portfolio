@@ -2,7 +2,7 @@ import React from 'react';
 import Formsy from 'formsy-react';
 
 import FormsyInput from '../FormElements/InlineInput.jsx';
-import InputPercentage from '../FormElements/CreateInputPerc.jsx';
+import InputPercentage from '../FormElements/CreatePercInput.jsx';
 
 import AssetStore from '../../stores/AssetStore';
 import AssetActions from '../../actions/AssetActions';
@@ -83,7 +83,20 @@ class CreateAssetForm extends React.Component {
             required
           />
           <div className="form-group">
-            <InputPercentage name="percentage" max={100-length} required/>
+            <InputPercentage
+              name="percentage"
+              validations={{
+              isLessThan: 100-length + 1,
+                isMoreThan: 1,
+                isInt: true
+              }}
+              validationErrors={{
+                isLessThan: `This must be lower then ${100-length + 1}`,
+                isMoreThan: 'This must be bigger then 1',
+                isInt: 'Number must be insteger value'
+              }} 
+              required
+            />
           </div>
           <button
             type="submit"

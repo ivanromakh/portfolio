@@ -11,6 +11,10 @@ export default {
         return axios.post(`${apiPrefix}/portfolios`, data);
     },
 
+    updatePortfolio(portfolio) {
+        return axios.post(`${apiPrefix}/portfolios/${portfolio.id}`, { portfolio: portfolio });
+    },
+
     deletePortfolio(portfolioId) {
     	console.log(portfolioId);
         return axios.delete(`${apiPrefix}/portfolios/${portfolioId}`);

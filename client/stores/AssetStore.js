@@ -29,8 +29,14 @@ const TasksStore = Object.assign({}, EventEmitter.prototype, {
 
 AppDispatcher.register(function(action) {
   switch(action.type) {
+    case UpdateConstants.CHANGE_PORFOLIO_DESCRIPTION: {
+      const { description, descType } = action.description;
+      _portfolio[descType] = description;
+      TasksStore.emitChange();
+      break;
+    }
     case UpdateConstants.CHANGE_ASSET_DESCRIPTION: {
-      const {assetId, description, descType} = action.asset;
+      const { assetId, description, descType } = action.asset;
       _portfolio.assets.map((asset) => {
         if(asset.id == assetId) {
           asset[descType] = description;

@@ -2,12 +2,13 @@ import React from 'react';
 import Modal from 'react-modal';
 import Formsy from 'formsy-react';
 
-import FormsyInput from '../FormElements/AssetInput.jsx';
+import FormsyInput from '../FormElements/PorfolioInput.jsx';
 import CreateAssetForm from './CreateAssetForm.jsx';
 import AssetList from './AssetList.jsx';
 
 import AssetStore from '../../stores/AssetStore';
 import AssetActions from '../../actions/AssetActions';
+import PortfolioActions from '../../actions/PortfolioActions';
 
 import './UpdatePortfolioForm.less';
 
@@ -30,7 +31,6 @@ class UpdateForm extends React.Component {
     this._onChange = this._onChange.bind(this);
     this.enableButton = this.enableButton.bind(this);
     this.disableButton = this.disableButton.bind(this);
-    this.validateForm = this.validateForm.bind(this);
   }
 
   componentDidMount() {
@@ -52,12 +52,15 @@ class UpdateForm extends React.Component {
       canSubmit: false
     });
   }
- 
-  submit(model) {
-    console.log(model);
+  
+  clearData() {
+    PortfolioActions.loadPortfolios();
+    this.props.closeModal();
   }
-
-  validateForm(values) {
+ 
+  submitFrom() {
+    const data = AssetActions.updatePortfolio(this.state.portfolio);
+    this.props.closeModal();
   }
 
   render() {
@@ -68,8 +71,7 @@ class UpdateForm extends React.Component {
         <div className="UpdateForm">
           <Formsy.Form 
             className="form-horizontal"
-            onChange={this.validateForm}
-            onValidSubmit={this.submit}
+            onValidSubmit={this.submitFrom.bind(this)}
             onValid={this.enableButton}
             onInvalid={this.disableButton}
           >
@@ -91,14 +93,32 @@ class UpdateForm extends React.Component {
                     <td>
                       <FormsyInput 
                         name="shortDescription"
+                        label="shortDescription"
                         value={portfolio.shortDescription}
+                        validations={{
+                          minLength: 2,
+                          maxLength: 6,
+                        }}
+                        validationErrors={{
+                          minLength: 'Pleasure type more than 2 characters',
+                          maxLength: 'You can not type in more than 6 characters'
+                        }}
                         required
                       />
                     </td>
                     <td>
                       <FormsyInput
                         name="longDescription"
+                        label="longDescription"
                         value={portfolio.longDescription}
+                        validations={{
+                          minLength: 3,
+                          maxLength: 20
+                        }}
+                        validationErrors={{
+                          minLength: 'Pleasure type more than 3 characters',
+                          maxLength: 'You can not type in more than 20 characters'
+                        }} 
                         required
                       />
                     </td>
@@ -107,7 +127,7 @@ class UpdateForm extends React.Component {
               </table>
             </div>
             <AssetList assets={portfolio.assets} />
-            <div className="btn-group">
+            <div className="btn-group ol-lg-12">
               <button 
                 type="submit"
                 disabled={!this.state.canSubmit}
@@ -119,7 +139,7 @@ class UpdateForm extends React.Component {
               <button
                 type="button"
                 className="btn btn-primary btn-outline"
-                onClick={ this.props.closeModal }
+                onClick={ this.clearData }
               >
                 Cancel
               </button>

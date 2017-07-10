@@ -34,6 +34,7 @@ const FormsyInput = React.createClass({
     return (
       <div className="col-xs-4">
         <div className={inputClass}>
+        <div className="row">
         <input 
           type="number"
           value={this.getValue()}
@@ -44,7 +45,10 @@ const FormsyInput = React.createClass({
           max={this.props.max}
         />
         <i className={glyphClass}></i>
+        </div>
+        <div className="row">
         <span>{errorMessage}</span>
+        </div>
       </div>
     </div>
     );

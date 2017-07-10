@@ -11,17 +11,6 @@ var portfolios = [];
 // Initialization of express application
 const app = express();
 
-function createPortfolio(data) {
-    console.log(data);
-    const portfolio = new Portfolio({
-        shortDescription : data.shortDes,
-        longDescription  : data.longDes,
-        assets: [],
-    });
-
-    return portfolio.save();
-}
-
 // Using bodyParser middleware
 app.use( bodyParser.json() );
 
@@ -49,9 +38,14 @@ app.post('/portfolios', (req, res) => {
   res.send(portfolios);
 });
 
+app.post('/portfolios/:id', (req, res) => {
+  const index = portfolios.findIndex((portfolio) => portfolio.id == req.params.id);
+  portfolios[req.params.id] = req.body.portfolio;
+  res.send(portfolios);
+});
+
 app.delete('/portfolios/:id', (req, res) => {
 	const index = portfolios.findIndex((portfolio) => portfolio.id == req.params.id);
-    console.log('delete', req.params.id, index);
     if(index >= 0) { 
 	  portfolios.splice(index, 1);
     }

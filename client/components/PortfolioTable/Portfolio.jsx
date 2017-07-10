@@ -29,10 +29,10 @@ class Portfolio extends React.Component {
   render() {
     return (
       <tr>
-        <td className="col-xs-2">{this.props.portfolio.id}</td>
-        <td className="col-xs-3">{this.props.portfolio.shortDescription}</td>
-        <td className="col-xs-4">{this.props.portfolio.longDescription}</td>
-        <td className="col-xs-8">
+        <td>{this.props.portfolio.id}</td>
+        <td>{this.props.portfolio.shortDescription}</td>
+        <td>{this.props.portfolio.longDescription}</td>
+        <td>
           {this.renderActions()}
         </td>
       </tr>

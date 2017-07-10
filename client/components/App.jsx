@@ -86,7 +86,7 @@ class App extends React.Component {
           modalIsOpen={this.state.showDetailModal}
         />
         <h2 className='Table__header'>List of portfolios</h2>
-        <div className="container">
+        <div className="portfolios-container">
           { !this.state.isLoading 
             ? <PortfolioTable 
               portfolios={ this.state.portfolios }

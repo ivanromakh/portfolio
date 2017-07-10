@@ -25,7 +25,7 @@ const FormsyInput = React.createClass({
     return (
       <div className="col-xs-4">
         <div className={inputClass}>
-          
+          <div className="row">
           <input
             type="text"
             className="form-control"
@@ -34,7 +34,10 @@ const FormsyInput = React.createClass({
             placeholder={this.props.label}
           />
           <i className={glyphClass}></i>
+          </div>
+          <div className="row">
           <span>{errorMessage}</span>
+          </div>
         </div>
       </div>
     );

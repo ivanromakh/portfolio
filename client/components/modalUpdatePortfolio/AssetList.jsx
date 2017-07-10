@@ -11,7 +11,16 @@ import { showInfo } from '../../utils/alerts';
 
 import './AssetList.less';
 
-class CreateAssetForm extends React.Component {
+Formsy.addValidationRule('isLessThan', function (values, value, otherField) {
+  return Number(value) <= otherField;
+});
+
+Formsy.addValidationRule('isMoreThan', function (values, value, otherField) {
+  console.log(value, otherField);
+  return Number(value) >= otherField;
+});
+
+class AssetList extends React.Component {
   constructor(props) {
     super(props);
 
@@ -48,38 +57,63 @@ class CreateAssetForm extends React.Component {
   }
 
   renderAssets(assets) {
-    Formsy.addValidationRule('isPositive', function (values, value) {
-      return value >= 0;
-    });
+    const style = { width: '24%'};
+    const style2 = { width: '4.1%', width: '50px' };
 
     return (assets.map((asset) => (
       <tr key={asset.id}>
-        <td>{asset.id}</td>
-        <td>
+        <td style={style2}>{asset.id}</td>
+        <td style={style}>
           <AssetInput  
             value={asset.shortDescription}
             name={`assetShDesc-${asset.id}`}
+            validations={{
+              minLength: 2,
+              maxLength: 6,
+            }}
+            validationErrors={{
+              minLength: 'Pleasure type more than 2 characters',
+              maxLength: 'You can not type in more than 6 characters'
+            }}
             required
           />
         </td>
-        <td>
+        <td style={style}>
           <AssetInput
             name={`assetLnDesc-${asset.id}`}
             value={asset.longDescription}
+            validations={{
+              minLength: 3,
+              maxLength: 20
+            }}
+            validationErrors={{
+              minLength: 'Pleasure type more than 3 characters',
+              maxLength: 'You can not type in more than 20 characters'
+            }}
             required
           />
         </td>
-        <td>
+        <td style={style}>
           <NumberInput
             type="number"
             className="form-control"
-            onChange={this.handlePercentChange}
+            assets= {this.props.assets}
             name={`percent-${asset.id}`}
+            validations={{
+              isLessThan: 100-this.props.assets.length + 1,
+              isMoreThan: 1,
+              isInt: true
+            }}
+            validationErrors={{
+              isLessThan: `This must be lower then ${100-this.props.assets.length + 1}`,
+              isMoreThan: 'This must be bigger then 1',
+              isInt: 'Number must be insteger value'
+            }} 
             value={asset.percentage}
             required
           />
         </td>
-        <td>
+        <td style={style}>
           <button
             type="button"
             className="btn btn-primary"
@@ -95,28 +129,35 @@ class CreateAssetForm extends React.Component {
   }
 
   render() {
+    const style = {width: '24%'};
+    const style2 = {width: '4.1%', width: '50px'};
     return (
-      <div className="panel panel-primary">
-        <div className="panel-heading">
-          <h3 className="panel-title">Assets</h3>
+        <div className="panel panel-primary">
+          <div className="panel-heading">
+            <h3 className="panel-title">Assets</h3>
+          </div>
+          <table className="span12">
+            <table>
+              <tr className="filters">
+              <th style={style2}> Id </th>
+              <th style={style}> Short Description  </th>
+              <th style={style}> Long Description
+              </th>
+              <th style={style}> Percentage
+              </th>
+              <th style={style}> Actions
+              </th>
+              </tr>
+            </table>
+            <div className="bg tablescroll">
+              <table className="table table-bordered table-striped">
+                {this.renderAssets(this.props.assets)}
+              </table>
+            </div>
+          </table>
         </div>
-        <table className="table table-bordered">
-          <thead>
-            <tr>
-              <th>Id</th>
-              <th>Short Description</th>
-              <th>Long Description</th>
-              <th>Percentage</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {this.renderAssets(this.props.assets)}
-          </tbody>
-        </table>
-      </div>
     );
   }
 }
 
-export default CreateAssetForm;
+export default AssetList;
