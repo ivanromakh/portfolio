@@ -5,15 +5,6 @@ import { Doughnut } from 'react-chartjs-2';
 
 
 class DoughnutChart extends React.Component {
-  getRandomColor() {
-    const letters = '0123456789ABCDEF';
-    let color = '#';
-    for (let i = 0; i < 6; i += 1) {
-      color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
-  }
-
   render() {
     const { assets } = this.props;
 
@@ -34,12 +25,10 @@ class DoughnutChart extends React.Component {
       };
     } else {
       assets.map((asset) => {
-        const color = this.getRandomColor();
-
         data.labels.push(asset.shortDescription);
         data.datasets[0].data.push(asset.percentage);
-        data.datasets[0].backgroundColor.push(color);
-        data.hoverBackgroundColor.push(color);
+        data.datasets[0].backgroundColor.push(asset.color);
+        data.hoverBackgroundColor.push(asset.color);
       });
     }
 

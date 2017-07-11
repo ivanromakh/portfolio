@@ -17,6 +17,18 @@ Formsy.addValidationRule('isMoreThan', (values, value, otherField) =>
   Number(value) >= Number(otherField),
 );
 
+Formsy.addValidationRule('isSumValid', (values, value, list) => 
+  list.reduce((sum, val) => sum + val) === 100
+);
+
+Formsy.addValidationRule('isSumLess', (values, value, list) => 
+  !(list.reduce((sum, val) => sum + val) < 100)
+);
+
+Formsy.addValidationRule('isSumMore', (values, value, list) => 
+  !(list.reduce((sum, val) => sum + val) > 100)
+);
+
 class AssetList extends React.Component {
   constructor(props) {
     super(props);
@@ -30,6 +42,8 @@ class AssetList extends React.Component {
   }
 
   renderAssets(assets) {
+    const percentages = assets.map((asset) => asset.percentage);
+
     return (assets.map(asset => (
       <tr key={asset.id}>
         <td>{asset.id}</td>
@@ -70,14 +84,18 @@ class AssetList extends React.Component {
             assets={assets}
             name={`percent-${asset.id}`}
             validations={{
+              isInt: true,
               isLessThan: 100 - (assets.length - 1),
               isMoreThan: 1,
-              isInt: true,
+              isSumLess: percentages,
+              isSumMore: percentages,
             }}
             validationErrors={{
+              isInt: 'Number must be insteger value',
               isLessThan: `This must be lower then ${100 - (assets.length - 1)}`,
               isMoreThan: 'This must be bigger then 1',
-              isInt: 'Number must be insteger value',
+              isSumLess: 'Sum of percentages is less then 100',
+              isSumMore: 'Sum of percentages is more then 100',
             }}
             value={asset.percentage}
             required

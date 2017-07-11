@@ -8,18 +8,27 @@ import api from '../api';
 import { increasePercentages,
   decreasePercentages } from '../validations/validations.js';
 
+function getRandomColor() {
+  const letters = '0123456789ABCDEF';
+  let color = '#';
+  for (let i = 0; i < 6; i += 1) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+}
 
 const AssetActions = {
   createAsset(asset, assets) {
     const length = assets.length;
 
+    asset.id = length;
+    asset.color = getRandomColor();
+
     if (length === 0) {
-      asset.id = length;
       asset.percentage = 100;
       assets.push(asset);
     } else {
-      decreasePercentages(assets, asset.percentage);
-      asset.id = length;
+      decreasePercentages(assets, asset.percentage);     
       assets.push(asset);
     }
 

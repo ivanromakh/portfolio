@@ -1,16 +1,17 @@
 import React from 'react';
 import Formsy from 'formsy-react';
 
-import { showInfo } from '../../utils/alerts';
 import PortfolioActions from '../../actions/PortfolioActions';
+
 
 const RangeMoneyInput = React.createClass({
   mixins: [Formsy.Mixin],
-  changeValue(event) {  
+  changeValue(event) {
     this.setValue(event.currentTarget.value);
+
     PortfolioActions.changePortflioMoney(
-      event.currentTarget.value*100,
-      this.props.selected
+      event.currentTarget.value,
+      this.props.selected,
     );
   },
 
@@ -19,7 +20,7 @@ const RangeMoneyInput = React.createClass({
   },
 
   render() {
-    const value = this.getValue()/100 || 1;
+    const value = this.getValue();
 
     const errorMessage = this.getErrorMessage();
     return (
@@ -30,11 +31,11 @@ const RangeMoneyInput = React.createClass({
           className="form-control"
           value={value}
           min="1"
-          max="10000"
+          max="1000000"
           onChange={this.changeValue}
           placeholder={this.props.label}
         />
-        <output id="range">{value*100}</output>
+        <output id="range">{value}</output>
       </div>
     );
   },

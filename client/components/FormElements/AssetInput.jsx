@@ -33,7 +33,7 @@ const FormsyInput = React.createClass({
       : this.showError()
       ? 'has-error'
       : 'has-success';
-
+    
     const glyphClass = this.showRequired() ? 'glyphicon glyphicon-asterisk form-control-feedback' : 'invisible';
 
     const errorMessage = this.getErrorMessage();

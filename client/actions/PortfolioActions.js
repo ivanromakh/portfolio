@@ -36,6 +36,7 @@ const PortfolioActions = {
 
   createPortfolio(portfolio) {
     portfolio.money = 0;
+    console.log(portfolio);
     api.createPortfolio(portfolio)
       .then(() => {
         showSuccess('Portfolio created');

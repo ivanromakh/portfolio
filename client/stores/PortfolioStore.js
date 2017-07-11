@@ -53,6 +53,7 @@ AppDispatcher.register((action) => {
     case AppConstants.LOAD_PORTFOLIOS_SUCCESS: {
       _isLoading = false;
       _portfolios = action.portfolios;
+      console.log('_portfolios', _portfolios);
       TasksStore.emitChange();
       break;
     }

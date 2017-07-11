@@ -9,11 +9,11 @@ class ChangePortfolio extends React.Component {
     const { selected, length } = this.props;
 
     let data = [selected + 1, length - selected - 1];
-    let colors = ['yellow', 'grey'];
+    let colors = ['#aaaa00', 'grey'];
 
     if ((selected + 1) == length) {
       data = [100, 1];
-      colors = ['yellow', 'yellow'];
+      colors = ['#aaaa00', '#aaaa00'];
     }
 
     return (

@@ -31,6 +31,7 @@ class UpdateForm extends React.Component {
     this._onChange = this._onChange.bind(this);
     this.enableButton = this.enableButton.bind(this);
     this.disableButton = this.disableButton.bind(this);
+    this.clearData = this.clearData.bind(this);
   }
 
   componentDidMount() {
@@ -131,17 +132,17 @@ class UpdateForm extends React.Component {
               </table>
             </div>
             <AssetList assets={portfolio.assets} />
-            <div className="btn-group col-lg-12">
+            <div className="btn-group">
               <button
                 type="submit"
                 disabled={!this.state.canSubmit}
-                className="btn btn-primary btn-outline"
+                className="btn btn-primary"
               >
                 Save
               </button>
               <button
                 type="button"
-                className="btn btn-primary btn-outline"
+                className="btn btn-primary"
                 onClick={this.clearData}
               >
                 Cancel

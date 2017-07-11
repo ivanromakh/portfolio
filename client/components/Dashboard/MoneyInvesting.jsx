@@ -2,14 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Form } from 'formsy-react';
 
-import MoneyInput from '../FormElements/MoneyInput.jsx'
-import RangeMoneyInput from '../FormElements/RangeMoneyInput.jsx'
+import MoneyInput from '../FormElements/MoneyInput.jsx';
+import RangeMoneyInput from '../FormElements/RangeMoneyInput.jsx';
 
 class MoneyInvesting extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state={ invested: 0 };
+    this.state = { invested: 0 };
   }
 
   render() {
@@ -22,12 +22,12 @@ class MoneyInvesting extends React.Component {
             selected={this.props.selected}
             validations={{
               isLessThan: 1000000,
-              isMoreThan: 100,
+              isMoreThan: 1,
               isInt: true,
             }}
             validationErrors={{
               isLessThan: `This must be lower then ${1000000}`,
-              isMoreThan: 'This must be bigger then 100',
+              isMoreThan: 'This must be bigger then 1',
               isInt: 'Number must be insteger value',
             }}
           />
@@ -43,7 +43,7 @@ class MoneyInvesting extends React.Component {
               }}
               validationErrors={{
                 isLessThan: `This must be lower then ${1000000}`,
-                isMoreThan: 'This must be bigger then 100',
+                isMoreThan: 'This must be bigger then 1',
                 isInt: 'Number must be insteger value',
               }}
             />
@@ -53,5 +53,11 @@ class MoneyInvesting extends React.Component {
     );
   }
 }
+
+MoneyInvesting.propTypes = {
+  setMoney: PropTypes.func.isRequired,
+  selected: PropTypes.number.isRequired,
+  money: PropTypes.number.isRequired,
+};
 
 export default MoneyInvesting;

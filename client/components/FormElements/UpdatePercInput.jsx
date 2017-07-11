@@ -9,12 +9,6 @@ const PercentageInput = React.createClass({
   changeValue(event) {
     const value = event.currentTarget.value;
 
-    if (value < 1) {
-      showInfo('Percentage must be bigger then 1');
-    } else if (value > this.props.max) {
-      showInfo(`Percentage must be lower then ${this.props.max}`);
-    }
-
     if (this.props.assets.length === 1) {
       showInfo('You can`t change percentage becouse there is only one asset');
       return true;
@@ -22,8 +16,7 @@ const PercentageInput = React.createClass({
 
     this.setValue(event.currentTarget.value);
 
-    const data = event.currentTarget.name.split('-');
-    const assetId = data[1];
+    const assetId = event.currentTarget.name.split('-')[1];
 
     AssetActions.changePercentages(assetId, event.currentTarget.value, this.props.assets);
     return true;
@@ -45,12 +38,13 @@ const PercentageInput = React.createClass({
     const glyphClass = this.showRequired() ? 'glyphicon glyphicon-asterisk form-control-feedback' : 'invisible';
 
     const errorMessage = this.getErrorMessage();
-
+    
+    const value = this.getValue() || 1;
     return (
       <div className={inputClass}>
         <input
           type="number"
-          value={this.getValue()}
+          value={value}
           name={this.props.name}
           className="form-control"
           onChange={this.changeValue}

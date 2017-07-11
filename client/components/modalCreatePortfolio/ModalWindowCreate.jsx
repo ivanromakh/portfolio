@@ -16,7 +16,6 @@ const customModelStyles = {
   },
 };
 
-
 class ModalWindowCreate extends React.Component {
   constructor() {
     super();

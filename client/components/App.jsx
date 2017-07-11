@@ -13,6 +13,7 @@ import ModalWindowDetail from './modalDetailPortfolio/ModalWindowDetail.jsx';
 import ModalWindowUpdate from './modalUpdatePortfolio/ModalWindowUpdate.jsx';
 import ModalWindowCreate from './modalCreatePortfolio/ModalWindowCreate.jsx';
 import PortfolioTable from './PortfolioTable/PortfolioTable.jsx';
+import Portfolios from './Portfolios.jsx';
 
 import './App.less';
 
@@ -29,25 +30,23 @@ class App extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = getStateFromFlux();
-
-    this.setState({
+    this.state = {
+      isLoading: PortfolioStore.isLoading(),
+      portfolios: PortfolioStore.getPortfolios(),
       showUpdateModal: false,
       showDetailModal: false,
       view: 'portfolio',
-      selectedPortfolio: {}
-    });
+      selectedPortfolio: {},
+    };
 
     this._onChange = this._onChange.bind(this);
   }
 
   componentWillMount() {
-    console.log(123);
     PortfolioActions.loadPortfolios();
   }
 
   componentDidMount() {
-    console.log(321);
     PortfolioStore.addChangeListener(this._onChange);
   }
 
@@ -55,62 +54,14 @@ class App extends React.Component {
     PortfolioStore.removeChangeListener(this._onChange);
   }
 
-  openModalUpdate(portfolio) {
-    this.setState({ showUpdateModal: true, selectedPortfolio: portfolio });
-  }
-
-  closeModalUpdate() {
-    this.setState({ showUpdateModal: false });
-  }
-
-  openModalDetail(portfolio) {
-    this.setState({ showDetailModal: true, selectedPortfolio: portfolio });
-  }
-
   changeView(event) {
     this.setState({ view: event.currentTarget.name });
-  }
-
-  closeModalDetail() {
-    this.setState({ showDetailModal: false });
-  }
-
-  handlePortfolioCreate(portfolio) {
-    PortfolioActions.createPortfolio(portfolio);
-  }
-
-  handlePortfolioDelete(portfolio) {
-    PortfolioActions.deletePortfolio(portfolio.id);
   }
 
   renderView() {
     if (this.state.view === 'portfolio') {
       return (
-        <div>
-          <ModalWindowCreate handlePortfolioCreate={this.handlePortfolioCreate} />
-          <ModalWindowUpdate
-            handlePortfolioUpdate={this.handlePortfolioUpdate}
-            closeModal={this.closeModalUpdate.bind(this)}
-            portfolio={this.state.selectedPortfolio}
-            modalIsOpen={this.state.showUpdateModal}
-          />
-          <ModalWindowDetail
-            closeModal={this.closeModalDetail.bind(this)}
-            portfolio={this.state.selectedPortfolio}
-            modalIsOpen={this.state.showDetailModal}
-          />
-          <h2 className="Table__header">List of portfolios</h2>
-          <div className="portfolios-container">
-            { !this.state.isLoading
-              ? <PortfolioTable
-                portfolios={this.state.portfolios}
-                openModalUpdate={this.openModalUpdate.bind(this)}
-                openModalDetail={this.openModalDetail.bind(this)}
-                handlePortfolioDelete={this.handlePortfolioDelete}
-              /> : null
-            }
-          </div>
-        </div>
+        <Portfolios portfolios={this.state.portfolios} />
       );
     } else if (this.state.view === 'dashboard') {
       return <Dashboard portfolios={this.state.portfolios} />;

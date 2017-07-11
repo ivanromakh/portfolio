@@ -1,10 +1,11 @@
 import React from 'react';
-
+import PropTypes from 'prop-types';
 
 class AssetViewList extends React.Component {
   render() {
     return (
       <div className="AssetViewList">
+        <div className="panel panel-primary">
         <table className="table table-bordered">
           <thead>
             <tr>
@@ -19,7 +20,7 @@ class AssetViewList extends React.Component {
                 <tr key={asset.id}>
                   <td>{asset.longDescription} {asset.shortDescription}</td>
                   <td>{asset.percentage}</td>
-                  <td>{(this.props.money * asset.percentage)/100}</td>
+                  <td>{(this.props.money * asset.percentage) / 100}</td>
                 </tr>
               ))
             }
@@ -30,9 +31,14 @@ class AssetViewList extends React.Component {
             </tr>
           </tbody>
         </table>
+        </div>
       </div>
     );
   }
 }
+
+AssetViewList.propTypes = {
+  money: PropTypes.number.isRequired,
+};
 
 export default AssetViewList;

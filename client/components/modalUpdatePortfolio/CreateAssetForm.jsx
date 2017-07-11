@@ -32,6 +32,7 @@ class CreateAssetForm extends React.Component {
   }
 
   handleCreateAsset(asset) {
+    asset.percentage = Number(asset.percentage);
     const assets = this.props.portfolio.assets;
     AssetActions.createAsset(asset, assets);
   }

@@ -14,18 +14,15 @@ import './Dashboard.less';
 class Dashboard extends React.Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      selectedPortfolio: this.props.portfolios[0],
-
-    };
+     
+    this.state = this.props.portfolios[0];
 
     this.selectPortfolio = this.selectPortfolio.bind(this);
   }
 
   selectPortfolio(event) {
     const type = event.currentTarget.name;
-    let { id } = this.state.selectedPortfolio;
+    let { id } = this.state;
     const { length } = this.props.portfolios;
 
     if (type === 'increment') {
@@ -44,16 +41,16 @@ class Dashboard extends React.Component {
       }
     }
 
-    this.setState({ selectedPortfolio: this.props.portfolios[id] });
+    this.setState(this.props.portfolios[id]);
   }
 
   render() {
-    const { assets, money, id } = this.state.selectedPortfolio;
+    const { assets, money, id } = this.state;
     return (
       <div className="App">
         <div className="row dashboard">
           <div className="col-xs-4">
-            <DoughnutChart assets={assets} />
+            <DoughnutChart assets={this.props.portfolios[id].assets} />
           </div>
           <div className="col-xs-4">
             <AssetViewList money={money} assets={assets} />
