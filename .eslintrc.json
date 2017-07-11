@@ -1,0 +1,14 @@
+{
+    "extends": "airbnb",
+    "rules": {
+        "semi": 2,
+        "no-param-reassign": [
+            "error", {
+                "props": false
+            }
+         ],
+        "import/extensions": [2, { "jsx": "always" }],
+        "react/forbid-prop-types": "off",
+        "react/jsx-no-bind": "off"
+    }
+}

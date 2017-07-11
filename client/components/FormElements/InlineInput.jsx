@@ -12,13 +12,17 @@ const FormsyInput = React.createClass({
   },
 
   render() {
-    const inputClass = this.showRequired()
-      ? 'form-group has-feedback has-error'
-      : this.showError()
-      ? 'form-group has-error'
-      : 'form-group has-success';
+    let inputClass = 'form-group has-success';
 
-    const glyphClass = this.showRequired() ? "glyphicon glyphicon-asterisk form-control-feedback" : "invisible";
+    if (this.showRequired()) {
+      inputClass = 'form-group has-feedback has-error';
+    } else if (this.showError()) {
+      inputClass = 'form-group has-error';
+    }
+
+    const glyphClass = this.showRequired()
+      ? 'glyphicon glyphicon-asterisk form-control-feedback'
+      : 'invisible';
 
     const errorMessage = this.getErrorMessage();
 
@@ -26,22 +30,22 @@ const FormsyInput = React.createClass({
       <div className="col-xs-4">
         <div className={inputClass}>
           <div className="row">
-          <input
-            type="text"
-            className="form-control"
-            value={this.getValue()}
-            onChange={this.changeValue}
-            placeholder={this.props.label}
-          />
-          <i className={glyphClass}></i>
+            <input
+              type="text"
+              className="form-control"
+              value={this.getValue()}
+              onChange={this.changeValue}
+              placeholder={this.props.label}
+            />
+            <i className={glyphClass} />
           </div>
           <div className="row">
-          <span>{errorMessage}</span>
+            <span>{errorMessage}</span>
           </div>
         </div>
       </div>
     );
-  }
+  },
 });
 
 export default FormsyInput;

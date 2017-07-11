@@ -5,30 +5,30 @@ import UpdateConstants from '../constants/UpdateFormConstants';
 
 const CHANGE_EVENT = 'change';
 
-let _portfolio = {};
-let _loadingError = null;
 
+/* eslint no-underscore-dangle: [2, { "allow": ["_portfolio"] }]*/
+let _portfolio = {};
 
 const TasksStore = Object.assign({}, EventEmitter.prototype, {
   getPortfolio() {
     return _portfolio;
   },
 
-  emitChange: function() {
+  emitChange() {
     this.emit(CHANGE_EVENT);
   },
 
-  addChangeListener: function(callback) {
+  addChangeListener(callback) {
     this.on(CHANGE_EVENT, callback);
   },
 
-  removeChangeListener: function(callback) {
+  removeChangeListener(callback) {
     this.removeListener(CHANGE_EVENT, callback);
-  }
+  },
 });
 
-AppDispatcher.register(function(action) {
-  switch(action.type) {
+AppDispatcher.register((action) => {
+  switch (action.type) {
     case UpdateConstants.CHANGE_PORFOLIO_DESCRIPTION: {
       const { description, descType } = action.description;
       _portfolio[descType] = description;
@@ -38,9 +38,11 @@ AppDispatcher.register(function(action) {
     case UpdateConstants.CHANGE_ASSET_DESCRIPTION: {
       const { assetId, description, descType } = action.asset;
       _portfolio.assets.map((asset) => {
-        if(asset.id == assetId) {
+        if (asset.id === assetId) {
           asset[descType] = description;
+          return true;
         }
+        return false;
       });
       TasksStore.emitChange();
       break;

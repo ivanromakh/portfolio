@@ -12,13 +12,17 @@ const FormsyInput = React.createClass({
   },
 
   render() {
-    const inputClass = this.showRequired()
-      ? 'form-group has-feedback has-error row'
-      : this.showError()
-      ? 'form-group has-error row'
-      : 'form-group has-success row';
+    let inputClass = 'form-group row has-success';
 
-    const glyphClass = this.showRequired() ? "glyphicon glyphicon-asterisk form-control-feedback" : "invisible";
+    if (this.showRequired()) {
+      inputClass = 'form-group row has-feedback has-error';
+    } else if (this.showError()) {
+      inputClass = 'form-group row has-error';
+    }
+
+    const glyphClass = this.showRequired()
+      ? 'glyphicon glyphicon-asterisk form-control-feedback'
+      : 'invisible';
 
     const errorMessage = this.getErrorMessage();
 
@@ -31,11 +35,11 @@ const FormsyInput = React.createClass({
           onChange={this.changeValue}
           placeholder={this.props.label}
         />
-        <i className={glyphClass}></i>
+        <i className={glyphClass} />
         <span>{errorMessage}</span>
       </div>
     );
-  }
+  },
 });
 
 export default FormsyInput;

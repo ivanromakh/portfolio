@@ -1,26 +1,18 @@
 import React from 'react';
 import Formsy from 'formsy-react';
+import PropTypes from 'prop-types';
 
 import FormsyInput from '../FormElements/InlineInput.jsx';
 import InputPercentage from '../FormElements/CreatePercInput.jsx';
 
-import AssetStore from '../../stores/AssetStore';
 import AssetActions from '../../actions/AssetActions';
 
-import './CreateAssetForm.less';
-
-function getStateFromFlux() {
-  return {
-    portfolios: AssetStore.getPortfolio(),
-    canSubmit: false,
-  };
-}
 
 class CreateAssetForm extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = getStateFromFlux();
+    this.state = { canSubmit: false };
 
     this.enableButton = this.enableButton.bind(this);
     this.disableButton = this.disableButton.bind(this);
@@ -29,14 +21,13 @@ class CreateAssetForm extends React.Component {
 
   enableButton() {
     this.setState({
-      canSubmit: true
+      canSubmit: true,
     });
   }
 
-  disableButton(event) {
-  	console.log(event);
+  disableButton() {
     this.setState({
-      canSubmit: false
+      canSubmit: false,
     });
   }
 
@@ -46,11 +37,11 @@ class CreateAssetForm extends React.Component {
   }
 
   render() {
-  	const length = this.props.portfolio.assets.length;
+    const length = this.props.portfolio.assets.length;
     return (
       <div className="CreateAssetForm">
         <h3>Create Asset</h3>
-        <Formsy.Form 
+        <Formsy.Form
           className="form-inline"
           onValidSubmit={this.handleCreateAsset}
           onValid={this.enableButton}
@@ -65,7 +56,7 @@ class CreateAssetForm extends React.Component {
             }}
             validationErrors={{
               minLength: 'Pleasure type more than 2 characters',
-              maxLength: 'You can not type in more than 6 characters'
+              maxLength: 'You can not type in more than 6 characters',
             }}
             required
           />
@@ -74,27 +65,27 @@ class CreateAssetForm extends React.Component {
             label="Long Description"
             validations={{
               minLength: 3,
-              maxLength: 20
+              maxLength: 20,
             }}
             validationErrors={{
               minLength: 'Pleasure type more than 3 characters',
-              maxLength: 'You can not type in more than 20 characters'
-            }} 
+              maxLength: 'You can not type in more than 20 characters',
+            }}
             required
           />
           <div className="form-group">
             <InputPercentage
               name="percentage"
               validations={{
-              isLessThan: 100-length + 1,
+                isLessThan: 100 - (length + 1),
                 isMoreThan: 1,
-                isInt: true
+                isInt: true,
               }}
               validationErrors={{
-                isLessThan: `This must be lower then ${100-length + 1}`,
+                isLessThan: `This must be lower then ${100 - (length + 1)}`,
                 isMoreThan: 'This must be bigger then 1',
-                isInt: 'Number must be insteger value'
-              }} 
+                isInt: 'Number must be insteger value',
+              }}
               required
             />
           </div>
@@ -102,7 +93,6 @@ class CreateAssetForm extends React.Component {
             type="submit"
             disabled={!this.state.canSubmit}
             className="btn btn-primary btn-outline"
-            type="submit"
           >
             Create
           </button>
@@ -111,5 +101,9 @@ class CreateAssetForm extends React.Component {
     );
   }
 }
+
+CreateAssetForm.propTypes = {
+  portfolio: PropTypes.object.isRequired,
+};
 
 export default CreateAssetForm;

@@ -26,7 +26,7 @@ const getErrorMessage = (error) => {
 };
 
 
-export const showError = error => {
+export const showError = (error) => {
   // eslint-disable-next-line no-console
   console.log(error);
 
@@ -35,10 +35,10 @@ export const showError = error => {
   Alert.error(errorMessage, alertOptions);
 };
 
-export const showInfo= message => {
+export const showInfo = (message) => {
   Alert.info(message, alertOptions);
 };
 
-export const showSuccess = message => {
+export const showSuccess = (message) => {
   Alert.success(message, alertOptions);
 };

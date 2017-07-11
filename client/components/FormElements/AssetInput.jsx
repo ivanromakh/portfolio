@@ -14,15 +14,15 @@ const FormsyInput = React.createClass({
 
     let descType = null;
 
-    if(data[0] == 'assetShDesc') {
-      descType = "shortDescription";
+    if (data[0] == 'assetShDesc') {
+      descType = 'shortDescription';
     } else if (data[0] == 'assetLnDesc') {
-      descType = "longDescription";
+      descType = 'longDescription';
     }
 
     AssetActions.changeAssetDescription(description, descType, assetId);
   },
-  
+
   componentWillMount() {
     this.setValue(this.props.value);
   },
@@ -34,7 +34,7 @@ const FormsyInput = React.createClass({
       ? 'has-error'
       : 'has-success';
 
-    const glyphClass = this.showRequired() ? "glyphicon glyphicon-asterisk form-control-feedback" : "invisible";
+    const glyphClass = this.showRequired() ? 'glyphicon glyphicon-asterisk form-control-feedback' : 'invisible';
 
     const errorMessage = this.getErrorMessage();
 
@@ -48,11 +48,11 @@ const FormsyInput = React.createClass({
           onChange={this.changeValue}
           placeholder={this.props.label}
         />
-        <i className={glyphClass}></i>
+        <i className={glyphClass} />
         <span>{errorMessage}</span>
       </div>
     );
-  }
+  },
 });
 
 export default FormsyInput;

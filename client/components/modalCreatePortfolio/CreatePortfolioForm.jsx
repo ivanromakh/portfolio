@@ -1,12 +1,10 @@
 import React from 'react';
-import Modal from 'react-modal';
-import Formsy from 'formsy-react';
-  
+import PropTypes from 'prop-types';
+import { Form } from 'formsy-react';
+
 import FormsyInput from '../FormElements/CreatePortfInput.jsx';
 
 import './CreatePortfolioForm.less';
-
-const inputStyle = "form-group";
 
 
 class CreateForm extends React.Component {
@@ -14,8 +12,8 @@ class CreateForm extends React.Component {
     super(props);
 
     this.state = {
-      canSubmit: false
-    }
+      canSubmit: false,
+    };
 
     this.enableButton = this.enableButton.bind(this);
     this.disableButton = this.disableButton.bind(this);
@@ -37,43 +35,43 @@ class CreateForm extends React.Component {
 
   render() {
     return (
-      <Formsy.Form 
+      <Form
         onValidSubmit={this.submit}
         onValid={this.enableButton}
         onInvalid={this.disableButton}
         className="form-signin"
       >
-        <h2 class="form-signin-heading">Create Portfolio</h2>
-        <br/>
-        <FormsyInput 
+        <h2 className="form-signin-heading">Create Portfolio</h2>
+        <br />
+        <FormsyInput
           label="Short Description"
-          name="shortDes" 
+          name="shortDes"
           validations={{
             minLength: 2,
             maxLength: 6,
           }}
           validationErrors={{
             minLength: 'Pleasure type more than 2 characters',
-            maxLength: 'You can not type in more than 6 characters'
-          }} 
+            maxLength: 'You can not type in more than 6 characters',
+          }}
           required
         />
-        <FormsyInput 
+        <FormsyInput
           label="Long Description"
-          name="longDes" 
+          name="longDes"
           validations={{
             minLength: 3,
-            maxLength: 20
+            maxLength: 20,
           }}
           validationErrors={{
             minLength: 'Pleasure type more than 3 characters',
-            maxLength: 'You can not type in more than 20 characters'
-          }} 
+            maxLength: 'You can not type in more than 20 characters',
+          }}
           required
         />
-        <br/><br/>
+        <br /><br />
         <div className="btn-group col-lg-12">
-          <button 
+          <button
             type="submit"
             disabled={!this.state.canSubmit}
             className="btn btn-lg btn-primary col-lg-6"
@@ -83,14 +81,19 @@ class CreateForm extends React.Component {
           <button
             type="button"
             className="btn btn-lg btn-primary col-lg-6"
-            onClick={ this.props.closeModal }
+            onClick={this.props.closeModal}
           >
             Close
           </button>
         </div>
-      </Formsy.Form>
+      </Form>
     );
   }
 }
+
+CreateForm.propTypes = {
+  closeModal: PropTypes.func.isRequired,
+  handlePortfolioCreate: PropTypes.func.isRequired,
+};
 
 export default CreateForm;

@@ -8,8 +8,8 @@ const FormsyInput = React.createClass({
   changeValue(event) {
     const value = event.currentTarget.value;
     if (value < 1) {
-      showInfo("Percentage must be bigger then 1");
-    } 
+      showInfo('Percentage must be bigger then 1');
+    }
     if (value > this.props.max) {
       showInfo(`Percentage must be lower then ${this.props.max}`);
     }
@@ -21,38 +21,42 @@ const FormsyInput = React.createClass({
   },
 
   render() {
-    const inputClass = this.showRequired()
-      ? 'form-group has-feedback has-error'
-      : this.showError()
-      ? 'form-group has-error'
-      : 'form-group has-success';
+    let inputClass = 'form-group has-success';
 
-    const glyphClass = this.showRequired() ? "glyphicon glyphicon-asterisk form-control-feedback" : "invisible";
+    if (this.showRequired()) {
+      inputClass = 'form-group has-feedback has-error';
+    } else if (this.showError()) {
+      inputClass = 'form-group has-error';
+    }
+
+    const glyphClass = this.showRequired()
+      ? 'glyphicon glyphicon-asterisk form-control-feedback'
+      : 'invisible';
 
     const errorMessage = this.getErrorMessage();
 
     return (
       <div className="col-xs-4">
         <div className={inputClass}>
-        <div className="row">
-        <input 
-          type="number"
-          value={this.getValue()}
-          className="form-control"
-          onChange={this.changeValue}
-          placeholder="Percentage"
-          min="1"
-          max={this.props.max}
-        />
-        <i className={glyphClass}></i>
-        </div>
-        <div className="row">
-        <span>{errorMessage}</span>
+          <div className="row">
+            <input
+              type="number"
+              value={this.getValue()}
+              className="form-control"
+              onChange={this.changeValue}
+              placeholder="Percentage"
+              min="1"
+              max={this.props.max}
+            />
+            <i className={glyphClass} />
+          </div>
+          <div className="row">
+            <span>{errorMessage}</span>
+          </div>
         </div>
       </div>
-    </div>
     );
-  }
+  },
 });
 
 export default FormsyInput;

@@ -1,6 +1,6 @@
 import React from 'react';
-import Modal from 'react-modal';
-import Formsy from 'formsy-react';
+import { Form } from 'formsy-react';
+import PropTypes from 'prop-types';
 
 import FormsyInput from '../FormElements/PorfolioInput.jsx';
 import CreateAssetForm from './CreateAssetForm.jsx';
@@ -10,7 +10,6 @@ import AssetStore from '../../stores/AssetStore';
 import AssetActions from '../../actions/AssetActions';
 import PortfolioActions from '../../actions/PortfolioActions';
 
-import './UpdatePortfolioForm.less';
 
 function getStateFromFlux() {
   return {
@@ -19,6 +18,7 @@ function getStateFromFlux() {
   };
 }
 
+/* eslint no-underscore-dangle: [2, { "allow": ["_onChange"] }]*/
 class UpdateForm extends React.Component {
   constructor(props) {
     super(props);
@@ -43,33 +43,37 @@ class UpdateForm extends React.Component {
 
   enableButton() {
     this.setState({
-      canSubmit: true
+      canSubmit: true,
     });
   }
 
   disableButton() {
     this.setState({
-      canSubmit: false
+      canSubmit: false,
     });
   }
-  
+
   clearData() {
     PortfolioActions.loadPortfolios();
     this.props.closeModal();
   }
- 
+
   submitFrom() {
-    const data = AssetActions.updatePortfolio(this.state.portfolio);
+    AssetActions.updatePortfolio(this.state.portfolio);
     this.props.closeModal();
+  }
+
+  _onChange() {
+    this.setState(getStateFromFlux());
   }
 
   render() {
     const portfolio = this.state.portfolio;
     return (
       <div className="context">
-        <CreateAssetForm portfolio={this.props.portfolio} />
+        <CreateAssetForm portfolio={portfolio} />
         <div className="UpdateForm">
-          <Formsy.Form 
+          <Form
             className="form-horizontal"
             onValidSubmit={this.submitFrom.bind(this)}
             onValid={this.enableButton}
@@ -91,7 +95,7 @@ class UpdateForm extends React.Component {
                   <tr>
                     <td>{portfolio.id}</td>
                     <td>
-                      <FormsyInput 
+                      <FormsyInput
                         name="shortDescription"
                         label="shortDescription"
                         value={portfolio.shortDescription}
@@ -101,7 +105,7 @@ class UpdateForm extends React.Component {
                         }}
                         validationErrors={{
                           minLength: 'Pleasure type more than 2 characters',
-                          maxLength: 'You can not type in more than 6 characters'
+                          maxLength: 'You can not type in more than 6 characters',
                         }}
                         required
                       />
@@ -113,12 +117,12 @@ class UpdateForm extends React.Component {
                         value={portfolio.longDescription}
                         validations={{
                           minLength: 3,
-                          maxLength: 20
+                          maxLength: 20,
                         }}
                         validationErrors={{
                           minLength: 'Pleasure type more than 3 characters',
-                          maxLength: 'You can not type in more than 20 characters'
-                        }} 
+                          maxLength: 'You can not type in more than 20 characters',
+                        }}
                         required
                       />
                     </td>
@@ -127,32 +131,32 @@ class UpdateForm extends React.Component {
               </table>
             </div>
             <AssetList assets={portfolio.assets} />
-            <div className="btn-group ol-lg-12">
-              <button 
+            <div className="btn-group col-lg-12">
+              <button
                 type="submit"
                 disabled={!this.state.canSubmit}
                 className="btn btn-primary btn-outline"
-                type="submit"
               >
                 Save
               </button>
               <button
                 type="button"
                 className="btn btn-primary btn-outline"
-                onClick={ this.clearData }
+                onClick={this.clearData}
               >
                 Cancel
               </button>
             </div>
-          </Formsy.Form>
+          </Form>
         </div>
       </div>
     );
   }
-
-  _onChange() {
-    this.setState(getStateFromFlux());
-  }
 }
+
+UpdateForm.propTypes = {
+  closeModal: PropTypes.func.isRequired,
+  portfolio: PropTypes.object.isRequired,
+};
 
 export default UpdateForm;

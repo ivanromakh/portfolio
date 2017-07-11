@@ -5,9 +5,8 @@ import AppConstants from '../constants/AppConstants';
 
 const CHANGE_EVENT = 'change';
 
-let _portfolio = {};
+/* eslint no-underscore-dangle: [2, { "allow": ["_portfolios", "_isLoading"] }]*/
 let _portfolios = [];
-let _loadingError = null;
 let _isLoading = true;
 
 
@@ -20,21 +19,32 @@ const TasksStore = Object.assign({}, EventEmitter.prototype, {
     return _portfolios;
   },
 
-  emitChange: function() {
+  emitChange() {
     this.emit(CHANGE_EVENT);
   },
 
-  addChangeListener: function(callback) {
+  addChangeListener(callback) {
     this.on(CHANGE_EVENT, callback);
   },
 
-  removeChangeListener: function(callback) {
+  removeChangeListener(callback) {
     this.removeListener(CHANGE_EVENT, callback);
-  }
+  },
 });
 
-AppDispatcher.register(function(action) {
-  switch(action.type) {
+AppDispatcher.register((action) => {
+  switch (action.type) {
+    case AppConstants.CHANGE_PORTFOLIO_MONEY: {
+      const { portfId, money } = action.portfolio
+      _portfolios.map((portfolio) => {
+        if(portfolio.id === portfId) {
+          portfolio.money = money;
+        }
+      });
+      TasksStore.emitChange();
+      break;
+    }
+
     case AppConstants.LOAD_PORTFOLIOS_REQUEST: {
       _isLoading = true;
       TasksStore.emitChange();
@@ -43,12 +53,10 @@ AppDispatcher.register(function(action) {
     case AppConstants.LOAD_PORTFOLIOS_SUCCESS: {
       _isLoading = false;
       _portfolios = action.portfolios;
-      _loadingError = null;
       TasksStore.emitChange();
-      break;  
+      break;
     }
     case AppConstants.LOAD_PORTFOLIOS_FAIL: {
-      _loadingError = action.error;
       TasksStore.emitChange();
       break;
     }

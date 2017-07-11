@@ -13,19 +13,23 @@ const FormsyInput = React.createClass({
 
     AssetActions.changePorfolioDescription(description, data);
   },
-  
+
   componentWillMount() {
     this.setValue(this.props.value);
   },
 
   render() {
-    const inputClass = this.showRequired()
-      ? 'has-feedback has-error'
-      : this.showError()
-      ? 'has-error'
-      : 'has-success';
+    let inputClass = 'has-success';
 
-    const glyphClass = this.showRequired() ? "glyphicon glyphicon-asterisk form-control-feedback" : "invisible";
+    if (this.showRequired()) {
+      inputClass = 'has-feedback has-error';
+    } else if (this.showError()) {
+      inputClass = 'has-error';
+    }
+
+    const glyphClass = this.showRequired()
+      ? 'glyphicon glyphicon-asterisk form-control-feedback'
+      : 'invisible';
 
     const errorMessage = this.getErrorMessage();
     return (
@@ -38,11 +42,11 @@ const FormsyInput = React.createClass({
           onChange={this.changeValue}
           placeholder={this.props.label}
         />
-        <i className={glyphClass}></i>
+        <i className={glyphClass} />
         <span>{errorMessage}</span>
       </div>
     );
-  }
+  },
 });
 
 export default FormsyInput;

@@ -1,21 +1,19 @@
 import React from 'react';
 import Modal from 'react-modal';
-import Formsy from 'formsy-react';
+import PropTypes from 'prop-types';
 
 import CreatePortfolioForm from './CreatePortfolioForm.jsx';
 
-import './ModalWindowCreate.less';
-
 
 const customModelStyles = {
-  content : {
-    top                   : '50%',
-    left                  : '50%',
-    right                 : 'auto',
-    bottom                : 'auto',
-    marginRight           : '-50%',
-    transform             : 'translate(-50%, -50%)'
-  }
+  content: {
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)',
+  },
 };
 
 
@@ -43,21 +41,25 @@ class ModalWindowCreate extends React.Component {
   render() {
     return (
       <div>
-        <button className="btn btn-primary" onClick={ this.openModal }>Create new portfolio</button>
+        <button className="btn btn-primary" onClick={this.openModal}>Create new portfolio</button>
         <Modal
-          isOpen={ this.state.modalIsOpen }
-          onRequestClose={ this.closeModal }
-          style={ customModelStyles }
+          isOpen={this.state.modalIsOpen}
+          onRequestClose={this.closeModal}
+          style={customModelStyles}
           contentLabel="Example Modal"
         >
-          <CreatePortfolioForm 
-            handlePortfolioCreate={this.props.handlePortfolioCreate} 
-            closeModal={this.closeModal} 
+          <CreatePortfolioForm
+            handlePortfolioCreate={this.props.handlePortfolioCreate}
+            closeModal={this.closeModal}
           />
         </Modal>
       </div>
     );
   }
+}
+
+ModalWindowCreate.propTypes = {
+  handlePortfolioCreate: PropTypes.func.isRequired,
 };
 
 export default ModalWindowCreate;

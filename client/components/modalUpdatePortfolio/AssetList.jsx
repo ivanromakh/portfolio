@@ -1,54 +1,27 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Formsy from 'formsy-react';
 
 import AssetInput from '../FormElements/AssetInput.jsx';
 import NumberInput from '../FormElements/UpdatePercInput.jsx';
 
-import AssetStore from '../../stores/AssetStore';
 import AssetActions from '../../actions/AssetActions';
-
-import { showInfo } from '../../utils/alerts';
 
 import './AssetList.less';
 
-Formsy.addValidationRule('isLessThan', function (values, value, otherField) {
-  return Number(value) <= otherField;
-});
 
-Formsy.addValidationRule('isMoreThan', function (values, value, otherField) {
-  console.log(value, otherField);
-  return Number(value) >= otherField;
-});
+Formsy.addValidationRule('isLessThan', (values, value, otherField) =>
+  Number(value) <= Number(otherField),
+);
+Formsy.addValidationRule('isMoreThan', (values, value, otherField) =>
+  Number(value) >= Number(otherField),
+);
 
 class AssetList extends React.Component {
   constructor(props) {
     super(props);
 
-    this.handlePercentChange = this.handlePercentChange.bind(this);
     this.handleDeleteAsset = this.handleDeleteAsset.bind(this);
-  }
-
-  handlePercentChange(event) {
-    const value = event.currentTarget.value;
-    const length = this.props.assets.length;
-    const maxValue = 100 - length + 1;
-
-    if(length == 1) {
-      showInfo("Can`t change percentage, when there is only one asset");
-      return true;
-    }
-
-    if(value < 1) {
-      showInfo("Percentage must be bigger then 1");
-      return true;
-    }
-
-    if( value > maxValue) {
-      showInfo(`Percentage must be lower then ${maxValue}`);
-      return true;
-    }
-    
-    const assetId = event.currentTarget.id.split('-')[1];
   }
 
   handleDeleteAsset(event) {
@@ -57,14 +30,11 @@ class AssetList extends React.Component {
   }
 
   renderAssets(assets) {
-    const style = { width: '24%'};
-    const style2 = { width: '4.1%', width: '50px' };
-
-    return (assets.map((asset) => (
+    return (assets.map(asset => (
       <tr key={asset.id}>
         <td>{asset.id}</td>
         <td>
-          <AssetInput  
+          <AssetInput
             value={asset.shortDescription}
             name={`assetShDesc-${asset.id}`}
             validations={{
@@ -73,7 +43,7 @@ class AssetList extends React.Component {
             }}
             validationErrors={{
               minLength: 'Pleasure type more than 2 characters',
-              maxLength: 'You can not type in more than 6 characters'
+              maxLength: 'You can not type in more than 6 characters',
             }}
             required
           />
@@ -84,11 +54,11 @@ class AssetList extends React.Component {
             value={asset.longDescription}
             validations={{
               minLength: 3,
-              maxLength: 20
+              maxLength: 20,
             }}
             validationErrors={{
               minLength: 'Pleasure type more than 3 characters',
-              maxLength: 'You can not type in more than 20 characters'
+              maxLength: 'You can not type in more than 20 characters',
             }}
             required
           />
@@ -97,18 +67,18 @@ class AssetList extends React.Component {
           <NumberInput
             type="number"
             className="form-control"
-            assets= {this.props.assets}
+            assets={assets}
             name={`percent-${asset.id}`}
             validations={{
-              isLessThan: 100-this.props.assets.length + 1,
+              isLessThan: 100 - (assets.length - 1),
               isMoreThan: 1,
-              isInt: true
+              isInt: true,
             }}
             validationErrors={{
-              isLessThan: `This must be lower then ${100-this.props.assets.length + 1}`,
+              isLessThan: `This must be lower then ${100 - (assets.length - 1)}`,
               isMoreThan: 'This must be bigger then 1',
-              isInt: 'Number must be insteger value'
-            }} 
+              isInt: 'Number must be insteger value',
+            }}
             value={asset.percentage}
             required
           />
@@ -129,22 +99,20 @@ class AssetList extends React.Component {
   }
 
   render() {
-    const style = {width: '24%'};
-    const style2 = {width: '4.1%', width: '50px'};
     return (
-        <div className="panel panel-primary">
-          <div className="panel-heading">
-            <h3 className="panel-title">Assets</h3>
-          </div>
-          <div>
+      <div className="panel panel-primary">
+        <div className="panel-heading">
+          <h3 className="panel-title">Assets</h3>
+        </div>
+        <div>
           <table className="table asset-list table-bordered">
             <thead id="assets-thead">
               <tr>
-              <th> Id </th>
-              <th> Short Description  </th>
-              <th> Long Description </th>
-              <th> Percentage </th>
-              <th> Actions </th>
+                <th>Id</th>
+                <th>Short Description</th>
+                <th>Long Description</th>
+                <th>Percentage</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody id="assets-tbody">
@@ -152,9 +120,13 @@ class AssetList extends React.Component {
             </tbody>
           </table>
         </div>
-        </div>
+      </div>
     );
   }
 }
+
+AssetList.propTypes = {
+  assets: PropTypes.array.isRequired,
+};
 
 export default AssetList;
