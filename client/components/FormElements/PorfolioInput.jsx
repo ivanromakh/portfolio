@@ -43,7 +43,7 @@ const FormsyInput = React.createClass({
           placeholder={this.props.label}
         />
         <i className={glyphClass} />
-        <span>{errorMessage}</span>
+        <span className="text-danger">{errorMessage}</span>
       </div>
     );
   },

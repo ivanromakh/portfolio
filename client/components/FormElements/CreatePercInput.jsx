@@ -5,7 +5,6 @@ import Formsy from 'formsy-react';
 const FormsyInput = React.createClass({
   mixins: [Formsy.Mixin],
   changeValue(event) {
-    const value = event.currentTarget.value;
     this.setValue(event.currentTarget.value);
   },
 
@@ -44,7 +43,7 @@ const FormsyInput = React.createClass({
             <i className={glyphClass} />
           </div>
           <div className="row">
-            <span>{errorMessage}</span>
+            <span className="text-danger">{errorMessage}</span>
           </div>
         </div>
       </div>

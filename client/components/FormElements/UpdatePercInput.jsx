@@ -53,7 +53,7 @@ const PercentageInput = React.createClass({
           max={this.props.max}
         />
         <i className={glyphClass} />
-        <span>{errorMessage}</span>
+        <span className="text-danger">{errorMessage}</span>
       </div>
     );
   },

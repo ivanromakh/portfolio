@@ -1,5 +1,5 @@
 import React from 'react';
-import Formsy from 'formsy-react';
+import { Form } from 'formsy-react';
 import PropTypes from 'prop-types';
 
 import FormsyInput from '../FormElements/InlineInput.jsx';
@@ -42,7 +42,7 @@ class CreateAssetForm extends React.Component {
     return (
       <div className="CreateAssetForm">
         <h3>Create Asset</h3>
-        <Formsy.Form
+        <Form
           className="form-inline"
           onValidSubmit={this.handleCreateAsset}
           onValid={this.enableButton}
@@ -97,7 +97,7 @@ class CreateAssetForm extends React.Component {
           >
             Create
           </button>
-        </Formsy.Form>
+        </Form>
       </div>
     );
   }

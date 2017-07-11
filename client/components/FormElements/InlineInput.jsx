@@ -40,7 +40,7 @@ const FormsyInput = React.createClass({
             <i className={glyphClass} />
           </div>
           <div className="row">
-            <span>{errorMessage}</span>
+            <span className="text-danger">{errorMessage}</span>
           </div>
         </div>
       </div>

@@ -2,8 +2,10 @@ import React from 'react';
 import Modal from 'react-modal';
 import PropTypes from 'prop-types';
 
+import CreateAssetForm from './CreateAssetForm.jsx';
 import UpdatePortfolioForm from './UpdatePortfolioForm.jsx';
 
+import './ModalWindowUpdate.less';
 
 const customModelStyles = {
   content: {
@@ -35,6 +37,7 @@ class ModalWindowUpdate extends React.Component {
         style={customModelStyles}
         contentLabel="Example Modal"
       >
+        <CreateAssetForm portfolio={this.props.portfolio} />
         <UpdatePortfolioForm
           portfolio={this.props.portfolio}
           closeModal={this.props.closeModal}

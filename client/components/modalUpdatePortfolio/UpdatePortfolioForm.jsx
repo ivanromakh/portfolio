@@ -71,8 +71,6 @@ class UpdateForm extends React.Component {
   render() {
     const portfolio = this.state.portfolio;
     return (
-      <div className="context">
-        <CreateAssetForm portfolio={portfolio} />
         <div className="UpdateForm">
           <Form
             className="form-horizontal"
@@ -149,8 +147,7 @@ class UpdateForm extends React.Component {
               </button>
             </div>
           </Form>
-        </div>
-      </div>
+          </div>
     );
   }
 }
